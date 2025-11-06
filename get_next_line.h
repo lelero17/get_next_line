@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:57 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/04 19:56:50 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/06 19:12:06 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,14 @@
 
 char	*get_next_line(int fd);
 
+char	*new_vals(char *stash);
+char	*new_line(char *line, char *stash);
+char	*fill_stash(int fd, char *buffer, char *stash);
+
 size_t	ft_strlen(const char *s);
 char	*strchr(char *s, int c);
+size_t	ft_isnewln(const char *s);
+char	*new_line(char *line, char *stash);
 
 
 #endif
