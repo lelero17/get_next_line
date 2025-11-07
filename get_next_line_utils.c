@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:37 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/06 15:18:18 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:42:31 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
-	while (s[len])	
+	while (s[len])
 		len++;
 	return (len);
 }
@@ -44,11 +44,13 @@ size_t	ft_isnewln(const char *s)
 {
 	size_t	i;
 
+	if (s == NULL)
+		return (0);
 	i = 0;
-	while(s)
+	while (s[i])
 	{
 		if (s[i] == '\n')
-			return(1);
+			return (1);
 		i++;
 	}
 	return (0);
