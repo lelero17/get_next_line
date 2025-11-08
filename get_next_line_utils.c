@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:37 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/07 15:42:31 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/08 10:27:56 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*strchr(char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	size_t			i;
 	unsigned char	val;

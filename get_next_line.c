@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:22 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/07 15:43:58 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/08 11:42:51 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 char	*fill_stash(int fd, char *buffer, char *stash)
 {
-	int	bytes;
+	int		bytes;
+	char	*temp;
 
 	while (!ft_isnewln(stash))
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
-			return (NULL);
+			return (free(stash), NULL);
 		else if (bytes == 0)
 			break ;
 		else
@@ -32,7 +33,9 @@ char	*fill_stash(int fd, char *buffer, char *stash)
 				return (NULL);
 			stash[0] = '\0';
 		}
+		temp = stash;
 		stash = ft_strjoin(stash, buffer);
+		free (temp);
 	}
 	return (stash);
 }
@@ -91,6 +94,17 @@ char	*new_vals(char *stash)
 	return (new_stash);
 }
 
+char	*freeall(char *buffer, char **stash)
+{
+	free(buffer);
+	if (*stash)
+	{
+		free(*stash);
+		*stash = NULL;
+	}
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {
 	char		*buffer;
@@ -109,9 +123,9 @@ char	*get_next_line(int fd)
 		return (free(buffer), NULL);
 	line = new_line(stash);
 	if (line == NULL)
-		return (free(buffer), NULL);
+		return (freeall(buffer, &stash));
 	new_stash = new_vals(stash);
-	free(stash);
+	free (stash);
 	free (buffer);
 	stash = new_stash;
 	return (line);
