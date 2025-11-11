@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:22 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/08 11:42:51 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:33:54 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,13 @@ char	*fill_stash(int fd, char *buffer, char *stash)
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
 			return (free(stash), NULL);
-		else if (bytes == 0)
-			break ;
-		else
-			buffer[bytes] = '\0';
-		if (stash == NULL)
-		{
-			stash = malloc(1);
-			if (!stash)
-				return (NULL);
-			stash[0] = '\0';
-		}
+		if (bytes == 0)
+			return (stash);
+		buffer[bytes] = '\0';
 		temp = stash;
 		stash = ft_strjoin(stash, buffer);
+		if (stash == NULL)
+			return (free(temp), NULL);
 		free (temp);
 	}
 	return (stash);
@@ -43,7 +37,6 @@ char	*fill_stash(int fd, char *buffer, char *stash)
 char	*new_line(char *stash)
 {
 	size_t	i;
-	size_t	j;
 	size_t	len;
 	char	*line;
 
@@ -58,11 +51,11 @@ char	*new_line(char *stash)
 	line = malloc(len + 1);
 	if (line == NULL)
 		return (NULL);
-	j = 0;
-	while (j < len)
+	i = 0;
+	while (i < len)
 	{
-		line[j] = stash[j];
-		j++;
+		line[i] = stash[i];
+		i++;
 	}
 	line[len] = '\0';
 	return (line);
@@ -125,6 +118,8 @@ char	*get_next_line(int fd)
 	if (line == NULL)
 		return (freeall(buffer, &stash));
 	new_stash = new_vals(stash);
+	if (new_stash == NULL && ft_strchr(stash, '\n') != NULL)
+		return (free(line), freeall(buffer, &stash));
 	free (stash);
 	free (buffer);
 	stash = new_stash;

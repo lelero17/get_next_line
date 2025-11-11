@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:37 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/08 10:27:56 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:47:26 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char *s)
 {
 	size_t	len;
 
+	if (!s)
+		return (0);
 	len = 0;
 	while (s[len])
 		len++;
@@ -28,6 +30,8 @@ char	*ft_strchr(char *s, int c)
 	unsigned char	val;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	val = (unsigned char) c;
 	while (s[i])
 	{
@@ -64,7 +68,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*res;
 
 	i = 0;
-	if (s1 == NULL || s2 == NULL)
+	if (s2 == NULL)
 		return (NULL);
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
