@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:22 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/11 14:33:54 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/11 19:38:58 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*fill_stash(int fd, char *buffer, char *stash)
 	int		bytes;
 	char	*temp;
 
-	while (!ft_isnewln(stash))
+	while (!gnl_isnewln(stash))
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
@@ -26,8 +26,8 @@ char	*fill_stash(int fd, char *buffer, char *stash)
 			return (stash);
 		buffer[bytes] = '\0';
 		temp = stash;
-		stash = ft_strjoin(stash, buffer);
-		if (stash == NULL)
+		stash = gnl_strjoin(stash, buffer);
+		if (!stash)
 			return (free(temp), NULL);
 		free (temp);
 	}
@@ -40,7 +40,7 @@ char	*new_line(char *stash)
 	size_t	len;
 	char	*line;
 
-	if (stash == NULL || stash[0] == '\0')
+	if (!stash || stash[0] == '\0')
 		return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
@@ -49,7 +49,7 @@ char	*new_line(char *stash)
 	if (stash[i] == '\n')
 		len++;
 	line = malloc(len + 1);
-	if (line == NULL)
+	if (!line)
 		return (NULL);
 	i = 0;
 	while (i < len)
@@ -69,15 +69,15 @@ char	*new_vals(char *stash)
 	char	*new_stash;
 
 	i = 0;
-	if (stash == NULL)
+	if (!stash)
 		return (NULL);
-	if (ft_strchr(stash, '\n') == NULL)
+	if (!gnl_strchr(stash, '\n'))
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	len = ft_strlen(stash);
+	len = gnl_strlen(stash);
 	new_stash = malloc((len - i) + 1);
-	if (new_stash == NULL)
+	if (!new_stash)
 		return (NULL);
 	j = 0;
 	i += 1;
@@ -108,18 +108,16 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc(BUFFER_SIZE + 1);
-	if (buffer == NULL)
+	if (!buffer)
 		return (NULL);
-	if (stash == NULL || !ft_isnewln(stash))
+	if (!stash || !gnl_isnewln(stash))
 		stash = fill_stash(fd, buffer, stash);
-	if (stash == NULL)
+	if (!stash)
 		return (free(buffer), NULL);
 	line = new_line(stash);
-	if (line == NULL)
+	if (!line)
 		return (freeall(buffer, &stash));
 	new_stash = new_vals(stash);
-	if (new_stash == NULL && ft_strchr(stash, '\n') != NULL)
-		return (free(line), freeall(buffer, &stash));
 	free (stash);
 	free (buffer);
 	stash = new_stash;

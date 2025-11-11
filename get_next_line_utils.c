@@ -6,13 +6,13 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:37 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/11 14:47:26 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/11 18:02:54 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t	gnl_strlen(const char *s)
 {
 	size_t	len;
 
@@ -24,14 +24,14 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*gnl_strchr(char *s, int c)
 {
 	size_t			i;
 	unsigned char	val;
 
-	i = 0;
 	if (!s)
 		return (NULL);
+	i = 0;
 	val = (unsigned char) c;
 	while (s[i])
 	{
@@ -44,11 +44,11 @@ char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-size_t	ft_isnewln(const char *s)
+size_t	gnl_isnewln(const char *s)
 {
 	size_t	i;
 
-	if (s == NULL)
+	if (!s)
 		return (0);
 	i = 0;
 	while (s[i])
@@ -60,21 +60,21 @@ size_t	ft_isnewln(const char *s)
 	return (0);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*gnl_strjoin(char const *s1, char const *s2)
 {
 	size_t	i;
 	size_t	len1;
 	size_t	len2;
 	char	*res;
 
+	if (!s2)
+		return (NULL);
+	len1 = gnl_strlen(s1);
+	len2 = gnl_strlen(s2);
+	res = malloc(len1 + len2 + 1);
+	if (!res)
+		return (NULL);
 	i = 0;
-	if (s2 == NULL)
-		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	res = malloc((len1 + len2 + 1) * sizeof(char));
-	if (res == NULL)
-		return (NULL);
 	while (i < len1)
 	{
 		res[i] = s1[i];
