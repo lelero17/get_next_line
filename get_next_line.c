@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:22 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/11 19:38:58 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/18 18:38:50 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ char	*new_vals(char *stash)
 	return (new_stash);
 }
 
-char	*freeall(char *buffer, char **stash)
+char	*freeall(char **buffer, char **stash)
 {
-	free(buffer);
+	free(*buffer);
+	*buffer = NULL;
 	if (*stash)
 	{
 		free(*stash);
@@ -116,7 +117,7 @@ char	*get_next_line(int fd)
 		return (free(buffer), NULL);
 	line = new_line(stash);
 	if (!line)
-		return (freeall(buffer, &stash));
+		return (freeall(&buffer, &stash));
 	new_stash = new_vals(stash);
 	free (stash);
 	free (buffer);
