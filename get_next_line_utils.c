@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:10:37 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/11 18:02:54 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/19 15:39:09 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,6 @@ size_t	gnl_strlen(const char *s)
 	while (s[len])
 		len++;
 	return (len);
-}
-
-char	*gnl_strchr(char *s, int c)
-{
-	size_t			i;
-	unsigned char	val;
-
-	if (!s)
-		return (NULL);
-	i = 0;
-	val = (unsigned char) c;
-	while (s[i])
-	{
-		if (val == (unsigned char)s[i])
-			return ((char *)&s[i]);
-		i++;
-	}
-	if (val == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
 }
 
 size_t	gnl_isnewln(const char *s)
