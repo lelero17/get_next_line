@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 15:10:57 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/19 15:39:06 by lemmerli         ###   ########.fr       */
+/*   Created: 2025/11/20 22:41:55 by lemmerli          #+#    #+#             */
+/*   Updated: 2025/11/21 16:57:00 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,8 @@
 
 char	*get_next_line(int fd);
 
-char	*new_vals(char *stash);
-char	*new_line(char *stash);
-char	*fill_stash(int fd, char *buffer, char *stash);
-char	*freeall(char **stash);
 
-size_t	gnl_strlen(const char *s);
-size_t	gnl_isnewln(const char *s);
-char	*gnl_strjoin(char const *s1, char const *s2);
+int		gnl_nl_in_range(char *s, int start, int len);
+void	*gnl_memmove(void *dest, const void *src, size_t n);
 
 #endif

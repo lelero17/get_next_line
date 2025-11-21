@@ -5,66 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/04 15:10:37 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/19 15:39:09 by lemmerli         ###   ########.fr       */
+/*   Created: 2025/11/21 14:47:19 by lemmerli          #+#    #+#             */
+/*   Updated: 2025/11/21 16:51:43 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	gnl_strlen(const char *s)
+int gnl_nl_in_range(char *s, int start, int len)
 {
-	size_t	len;
+	int	i;
 
-	if (!s)
-		return (0);
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	i = start;
+	while(i < len)
+	{
+		if(s[i] == '\n')
+			return(i);
+		i++;
+	}
+	return(-1);
 }
 
-size_t	gnl_isnewln(const char *s)
+void	*gnl_memmove(void *dest, const void *src, size_t n)
 {
-	size_t	i;
+	size_t				i;
+	unsigned char		*byte_dest;
+	const unsigned char	*byte_src;
 
-	if (!s)
-		return (0);
 	i = 0;
-	while (s[i])
+	byte_dest = dest;
+	byte_src = src;
+	if (n == 0 || byte_dest == byte_src)
+		return (dest);
+	if (byte_dest < byte_src || byte_dest >= byte_src + n)
 	{
-		if (s[i] == '\n')
-			return (1);
-		i++;
+		while (i < n)
+		{
+			byte_dest[i] = byte_src[i];
+			i++;
+		}
+		return (dest);
 	}
-	return (0);
-}
-
-char	*gnl_strjoin(char const *s1, char const *s2)
-{
-	size_t	i;
-	size_t	len1;
-	size_t	len2;
-	char	*res;
-
-	if (!s2)
-		return (NULL);
-	len1 = gnl_strlen(s1);
-	len2 = gnl_strlen(s2);
-	res = malloc(len1 + len2 + 1);
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < len1)
+	i = n;
+	while (i > 0)
 	{
-		res[i] = s1[i];
-		i++;
+		byte_dest[i - 1] = byte_src[i - 1];
+		i--;
 	}
-	while (i < len1 + len2)
-	{
-		res[i] = s2[i - len1];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
+	return (dest);
 }
