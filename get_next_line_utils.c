@@ -6,24 +6,24 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 14:47:19 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/21 16:51:43 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/23 14:10:02 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int gnl_nl_in_range(char *s, int start, int len)
+int	gnl_nl_in_range(char *s, int start, int len)
 {
 	int	i;
 
 	i = start;
-	while(i < len)
+	while (i < len)
 	{
-		if(s[i] == '\n')
-			return(i);
+		if (s[i] == '\n')
+			return (i);
 		i++;
 	}
-	return(-1);
+	return (-1);
 }
 
 void	*gnl_memmove(void *dest, const void *src, size_t n)
