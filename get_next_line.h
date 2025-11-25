@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 22:41:55 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/23 16:33:13 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/25 13:13:38 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 char	*get_next_line(int fd);
 int		fill_buffer(int fd);
 
-int		gnl_nl_in_range(char *s, int start, int len);
-void	*gnl_memmove(void *dest, const void *src, size_t n);
+int	find_nl(char *s, int len);
 
 #endif
