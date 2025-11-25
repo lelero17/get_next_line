@@ -6,11 +6,23 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:52:15 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/25 17:17:03 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/25 19:50:27 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	gnl_strlen(char *s)
+{
+	size_t len;
+
+	if(!s)
+		return (0);
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
+}
 
 int	gnl_find_nl(const char *s, size_t stash_len)
 {
@@ -74,4 +86,22 @@ char	*gnl_memmove(void *dest, const void *src, size_t n)
 		i--;
 	}
 	return (dest);
+}
+
+int gnl_append_to_line(char **line, char *data, size_t len)
+{
+	size_t	old_len;
+	char	*new_line;
+
+	old_len = gnl_strlen(*line);
+	new_line = malloc(old_len + len + 1);
+	if(!new_line)
+		return (0);
+	if(old_len > 0)
+		gnl_memcpy(new_line, *line, old_len);
+	gnl_memcpy(new_line + old_len, data, len);
+	new_line[old_len + len] = '\0';
+	free(*line);
+	*line = new_line;
+	return (1);
 }
