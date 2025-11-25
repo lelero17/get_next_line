@@ -5,58 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 22:41:44 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/25 13:22:47 by lemmerli         ###   ########.fr       */
+/*   Created: 2025/11/25 15:23:30 by lemmerli          #+#    #+#             */
+/*   Updated: 2025/11/25 18:25:56 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-typedef struct s_static
+char	*get_next_line(fd)
 {
-	char	buf[BUFFER_SIZE];
-	int		pos;
-	int		len;
-}	t_static;
-
-
-
-char	*get_next_line(int fd)
-{
-	static t_static	s = {0};
-	char			*line;
-	int				nl_pos;
-	int				bytes;
+	static char stash[BUFFER_SIZE + 1];
+	char		*line;
+	size_t		stash_len;
+	int			nl_pos;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
-	while (1)
+	stash_len = 0;
+	while (stash[stash_len])
+		stash_len++;
+	nl_pos = gnl_find_nl(stash, stash_len);
+	if (nl_pos >= 0)
 	{
-		if (s.pos >= s.len)
-		{
-			bytes = read(fd, s.buf, BUFFER_SIZE);
-			if (bytes <= 0)
-			{
-				if(bytes < 0 || line == NULL)
-				{
-					free (line);
-					return(NULL);
-				}
-				return(line);
-			}
-			s.len = bytes;
-			s.pos = 0;
-		}
-		nl_pos = find_nl(s.buf + s.pos, s.len - s.pos);
-		if (nl_pos != -1)
-		{
-			line = new_line(line, s.buf + s.pos, nl_pos + 1);
-			s.pos += nl_pos + 1;
-			return (line);
-		}
-		line = new_line(line, s.buf + s.pos, s.len - s.pos);
-		s.pos = s.len;
+		line = malloc(nl_pos + 2);
+		if (!line)
+			return (NULL);
+		gnl_memcpy(line, stash, nl_pos + 1);
+		line[nl_pos + 1] = '\0';
+		gnl_memmove(stash, &stash[nl_pos + 1], stash_len - (nl_pos + 1));
+		stash[stash_len - (nl_pos + 1)] = '\0';
 	}
-	
+	if (nl_pos == -1)
+	{
+		
+	}
 }
