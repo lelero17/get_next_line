@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/25 15:23:30 by lemmerli          #+#    #+#             */
+/*   Created: 2025/11/26 18:29:49 by lemmerli          #+#    #+#             */
 /*   Updated: 2025/11/26 18:35:35 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -14,27 +14,27 @@
 
 char	*get_next_line(int fd)
 {
-	static char	stash[BUFFER_SIZE + 1];
+	static char	stash[1024][BUFFER_SIZE + 1];
 	char		*line;
 	size_t		stash_len;
 	int			nl_pos;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 1024)
 		return (NULL);
-	stash_len = gnl_strlen(stash);
-	nl_pos = gnl_find_nl(stash, stash_len);
+	stash_len = gnl_strlen(stash[fd]);
+	nl_pos = gnl_find_nl(stash[fd], stash_len);
 	if (nl_pos >= 0)
 	{
-		line = gnl_nl_in_stash(stash, nl_pos, stash_len);
+		line = gnl_nl_in_stash(stash[fd], nl_pos, stash_len);
 		if (!line)
 			return (NULL);
 		return (line);
 	}
 	line = NULL;
-	nl_pos = gnl_read_until_nl(fd, stash, &line, &stash_len);
+	nl_pos = gnl_read_until_nl(fd, stash[fd], &line, &stash_len);
 	if (nl_pos == -2)
 		return (free(line), NULL);
-	return (gnl_fin_line(&line, stash, nl_pos, stash_len));
+	return (gnl_fin_line(&line, stash[fd], nl_pos, stash_len));
 }
 
 char	*gnl_nl_in_stash(char *stash, int nl_pos, size_t stash_len)
