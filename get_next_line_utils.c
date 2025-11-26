@@ -6,7 +6,7 @@
 /*   By: lemmerli <lemmerli@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/25 15:52:15 by lemmerli          #+#    #+#             */
-/*   Updated: 2025/11/25 19:50:27 by lemmerli         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:35:39 by lemmerli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 size_t	gnl_strlen(char *s)
 {
-	size_t len;
+	size_t	len;
 
-	if(!s)
+	if (!s)
 		return (0);
 	len = 0;
 	while (s[len])
@@ -29,7 +29,7 @@ int	gnl_find_nl(const char *s, size_t stash_len)
 	size_t	i;
 
 	if (!s)
-		return (0);
+		return (-1);
 	i = 0;
 	while (i < stash_len)
 	{
@@ -42,9 +42,9 @@ int	gnl_find_nl(const char *s, size_t stash_len)
 
 char	*gnl_memcpy(char *dest, const char *src, size_t n)
 {
-	size_t				i;
-	unsigned char		*byte_dest;
-	const unsigned char	*byte_src;
+	size_t		i;
+	char		*byte_dest;
+	const char	*byte_src;
 
 	if (dest == 0 && src == 0)
 		return (dest);
@@ -59,11 +59,11 @@ char	*gnl_memcpy(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-char	*gnl_memmove(void *dest, const void *src, size_t n)
+char	*gnl_memmove(char *dest, const char *src, size_t n)
 {
-	size_t				i;
-	unsigned char		*byte_dest;
-	const unsigned char	*byte_src;
+	size_t		i;
+	char		*byte_dest;
+	const char	*byte_src;
 
 	i = 0;
 	byte_dest = dest;
@@ -88,16 +88,20 @@ char	*gnl_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-int gnl_append_to_line(char **line, char *data, size_t len)
+int	gnl_append_to_line(char **line, char *data, size_t len)
 {
 	size_t	old_len;
 	char	*new_line;
 
 	old_len = gnl_strlen(*line);
 	new_line = malloc(old_len + len + 1);
-	if(!new_line)
+	if (!new_line)
+	{
+		free(*line);
+		*line = NULL;
 		return (0);
-	if(old_len > 0)
+	}
+	if (old_len > 0)
 		gnl_memcpy(new_line, *line, old_len);
 	gnl_memcpy(new_line + old_len, data, len);
 	new_line[old_len + len] = '\0';
